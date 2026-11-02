@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WTMUG Dosya Paylaşım</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Kütüphaneler -->
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+</head>
+<body>
+
+<!-- ================= ROL SEÇİM EKRANI ================= -->
+<section id="screen-role" class="screen active">
+  <h1>📡 WTMUG Dosya Paylaşım</h1>
+  <p class="subtitle">P2P — dosyalar sunucuya gitmez</p>
+  <div class="role-buttons">
+    <button id="btn-teacher" class="role-btn teacher">
+      <span class="role-emoji">🖥️</span>
+      <span class="role-title">Hoca</span>
+      <span class="role-desc">Dosya gönder</span>
+    </button>
+    <button id="btn-student" class="role-btn student">
+      <span class="role-emoji">📱</span>
+      <span class="role-title">Öğrenci</span>
+      <span class="role-desc">Dosya al</span>
+    </button>
+  </div>
+</section>
+
+<!-- ================= HOCA EKRANI ================= -->
+<section id="screen-teacher" class="screen">
+  <header>
+    <button class="back-btn" onclick="goHome()">← Geri</button>
+    <h2>🖥️ Hoca Modu</h2>
+  </header>
+
+  <div class="card">
+    <label class="file-label">
+      <input type="file" id="teacher-file" hidden>
+      <span id="file-info">📁 Dosya seçmek için tıkla</span>
+    </label>
+  </div>
+
+  <div class="card" id="qr-section" style="display:none">
+    <p class="label">Öğrenciler bu QR'ı okutabilir:</p>
+    <div id="qr-box"></div>
+    <p class="label">veya ID'yi elle girin:</p>
+    <div class="peer-id" id="peer-id">—</div>
+    <button class="copy-btn" onclick="copyId()">📋 Kopyala</button>
+  </div>
+
+  <div class="card" id="log-section" style="display:none">
+    <h3>📊 Gönderim Günlüğü</h3>
+    <p><strong>Bağlı öğrenci:</strong> <span id="student-count">0</span></p>
+    <div id="log-list"></div>
+  </div>
+</section>
+
+<!-- ================= ÖĞRENCİ EKRANI ================= -->
+<section id="screen-student" class="screen">
+  <header>
+    <button class="back-btn" onclick="goHome()">← Geri</button>
+    <h2>📱 Öğrenci Modu</h2>
+  </header>
+
+  <div class="card">
+    <label class="label">Hocanın ID'sini girin:</label>
+    <input type="text" id="teacher-id-input" placeholder="örn: abc-123-xyz">
+    <button id="btn-connect" class="primary-btn">Bağlan</button>
+    <button id="btn-scan-qr" class="secondary-btn" style="display:none">
+      📷 Kamera ile QR Okut
+    </button>
+  </div>
+
+  <div class="card" id="scan-section" style="display:none">
+    <video id="scan-video" playsinline></video>
+    <button class="secondary-btn" onclick="stopScanner()">Kapat</button>
+  </div>
+
+  <div class="card" id="receive-section" style="display:none">
+    <h3>📥 Alınan Dosya</h3>
+    <p id="receive-name">—</p>
+    <progress id="receive-progress" value="0" max="100"></progress>
+    <p id="receive-status">Bekleniyor...</p>
+    <a id="download-btn" class="primary-btn" style="display:none" download>💾 İndir</a>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
